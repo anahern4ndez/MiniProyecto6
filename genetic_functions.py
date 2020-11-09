@@ -46,7 +46,7 @@ def genetic_algorithm(rounds, population, evaluation_f, evaluate, max_evaluate):
         # cross-over de padres y se genera un nuevo individuo
         parent1 = population[gen1]
         parent2 = population[gen2]
-        child = combinations(np.array([parent1, parent2]), 2)
+        child = combinations(np.concatenate((parent1, parent2)), 2)
         population = [] # siguiente nivel de arbol genealogico
         population.append(parent1)
         population.append(parent2)
@@ -55,9 +55,9 @@ def genetic_algorithm(rounds, population, evaluation_f, evaluate, max_evaluate):
         for gen in list(child):
             child_genome = np.array(gen)
             mutation_prob = np.random.uniform() # probabilidad que el individuo tenga una mutacion
+            mutated_chromosome = np.random.randint(0,2)
             if mutation_prob > 0.8:
-                mutated_chromosome = np.random.randint(0,2)
-                child_genome[mutated_chromosome] = child_genome[mutated_chromosome]+ 1
+                child_genome[mutated_chromosome] += 1
             if evaluate(child_genome[0], child_genome[1]):
                 population.append(child_genome)
     return population[0], max_evaluate
@@ -81,13 +81,13 @@ def eval1(x1, x2):
         return False
 
 def eval2(x1, x2):
-    if x1 + 2*x2 <= 30:
+    if (3*x1 + 2*x2) <= 18:
         return True
     else:
         return False
 
 def eval3(x1, x2):
-    if x1 + 2*x2 <= 30:
+    if (3*x1 + 2*x2) <= 6:
         return True
     else:
         return False
