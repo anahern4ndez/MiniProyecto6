@@ -47,7 +47,9 @@ def genetic_algorithm(rounds, population, evaluation_f, evaluate, max_evaluate):
         parent1 = population[gen1]
         parent2 = population[gen2]
         child = combinations(np.array([parent1, parent2]), 2)
-        population = [parent1, parent2] # siguiente nivel de arbol genealogico
+        population = [] # siguiente nivel de arbol genealogico
+        population.append(parent1)
+        population.append(parent2)
 
         # mutacion aleatoria de siguiente generacion
         for gen in list(child):
@@ -55,7 +57,7 @@ def genetic_algorithm(rounds, population, evaluation_f, evaluate, max_evaluate):
             mutation_prob = np.random.uniform() # probabilidad que el individuo tenga una mutacion
             if mutation_prob > 0.8:
                 mutated_chromosome = np.random.randint(0,2)
-                child_genome[mutated_chromosome] += 1
+                child_genome[mutated_chromosome] = child_genome[mutated_chromosome]+ 1
             if evaluate(child_genome[0], child_genome[1]):
                 population.append(child_genome)
     return population[0], max_evaluate
@@ -73,7 +75,7 @@ def task3(x1, x2):
     return 5*x1 - x1**2 + 8*x2 - 2*x2**2
 
 def eval1(x1, x2):
-    if x1 + 2*x2 <= 30:
+    if (x1 + 2*x2) <= 30:
         return True
     else:
         return False
